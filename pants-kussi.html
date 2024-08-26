@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pants Kussi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1><a href="Index.html"><img src="Imagens/Logo-removebg-preview.png" alt="Logo Kussi"></a></h1>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav class="nav-links" id="nav-links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="all-products.html">All Products</a></li>
+                    <li><a href="about-us.html">About us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="menu-icons">
+                <a href="#" id="search-icon"><img src="Imagens/icon/icons8-search-30.png" alt="Search Icon"></a>
+                <a href="#"><img src="Imagens/icon/icons8-user-24.png" alt="User Icon"></a>
+                <a href="cart.html"><img src="Imagens/icon/icons8-cart-64.png" alt="Cart Icon"><span id="cart-count">0</span></a>
+            </div>
+            <div id="search-menu" class="search-menu">
+                <input type="text" placeholder="Search articles...">
+                <button id="close-search">X</button>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="product-details">
+            <div class="product-image">
+                <img src="Imagens/Pants-Front.jpeg" alt="Pants Kussi - Front View">
+            </div>
+            <div class="product-info">
+                <h1>Kuzzi Pants</h1>
+                <p class="price">80€</p>
+                <p class="tax-info">Tax included. Shipping calculated at checkout.</p>
+                
+                <div class="size-options">
+                    <h3>SIZE</h3>
+                    <div class="sizes">
+                        <button class="size-btn">S</button>
+                        <button class="size-btn">M</button>
+                        <button class="size-btn">L</button>
+                        <button class="size-btn">XL</button>
+                    </div>
+                </div>
+                
+                <div class="quantity">
+                    <h3>QUANTITY</h3>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" id="decrease-quantity">-</button>
+                        <input type="text" value="1" id="quantity-input">
+                        <button class="quantity-btn" id="increase-quantity">+</button>
+                    </div>
+                </div>
+                
+                <button class="add-to-cart" id="add-to-cart">Add to cart</button>
+                
+                <div class="product-description">
+                    <p>Comfort and style in every step.</p>
+                    <p>100% Cotton</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Inicializa o carrinho a partir do localStorage ou cria um novo
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Atualiza a contagem de itens no ícone do carrinho
+        function updateCartCount() {
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = cartCount;
+        }
+
+        // Renderiza o número de itens no ícone do carrinho ao carregar a página
+        updateCartCount();
+
+        // Função para adicionar ao carrinho
+        document.getElementById('add-to-cart').addEventListener('click', function() {
+            const selectedSize = document.querySelector('.size-btn.active')?.textContent || 'M';
+            const quantity = parseInt(document.getElementById('quantity-input').value);
+
+            const item = {
+                id: 'pants1', // Um ID único para o item
+                name: 'Kuzzi Pants',
+                size: selectedSize,
+                price: 80,
+                quantity: quantity,
+                image: 'Imagens/Pants-Front.jpeg'
+            };
+
+            const existingItem = cart.find(cartItem => cartItem.id === item.id && cartItem.size === selectedSize);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push(item);
+            }
+
+            // Atualiza o localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Atualiza a contagem no ícone do carrinho
+            updateCartCount();
+        });
+
+        // Função para aumentar ou diminuir a quantidade
+        document.getElementById('increase-quantity').addEventListener('click', function() {
+            let quantity = parseInt(document.getElementById('quantity-input').value);
+            document.getElementById('quantity-input').value = quantity + 1;
+        });
+
+        document.getElementById('decrease-quantity').addEventListener('click', function() {
+            let quantity = parseInt(document.getElementById('quantity-input').value);
+            if (quantity > 1) {
+                document.getElementById('quantity-input').value = quantity - 1;
+            }
+        });
+
+        // Função para selecionar o tamanho
+        document.querySelectorAll('.size-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.checkout-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.checkout-form {
+    width: 50%;
+}
+.summary {
+    width: 45%;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+}
+.summary h2 {
+    margin-top: 0;
+}
+.summary .product-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.summary .total {
+    font-size: 18px;
+    font-weight: bold;
+}
+.summary input {
+    width: calc(100% - 75px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.summary button {
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.payment-method img {
+    width: 50px;
+    margin-right: 10px;
+}
+
+.checkout-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="email"]::placeholder,
+input[type="text"]::placeholder,
+input[type="tel"]::placeholder {
+    color: #888;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+label input {
+    margin-right: 10px;
+}
+
+.login {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.name-fields,
+.location-fields {
+    display: flex;
+    gap: 10px;
+}
+
+.name-fields input,
+.location-fields input {
+    flex: 1;
+}
+
+.shipping-method p {
+    color: #555;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .name-fields,
+    .location-fields {
+        flex-direction: column;
+    }
+}
+
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+}
+
+
+.product-description p {
+    margin-bottom: 10px;
+}
+
+.additional-info p a {
+    color: #000;
+    text-decoration: underline;
+}
+
+.additional-info p a:hover {
+    text-decoration: none;
+}
+
+.logo{
+
+    margin-left: 50%;
+}

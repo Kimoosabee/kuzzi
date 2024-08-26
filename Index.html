@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuzzi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1><img src="Imagens/Logo-removebg-preview.png" alt=""></h1>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav class="nav-links" id="nav-links">
+                <ul>
+                    <li><a href="estruturabase.html">Home</a></li>
+                    <li><a href="product.html">All Products</a></li>
+                    <li><a href="#">About us</a></li>
+                    
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="menu-icons">
+                <a href="#" id="search-icon"><img src="Imagens/icon/icons8-search-30.png" alt="Search Icon"></a>
+                <a href="#"><img src="Imagens/icon/icons8-user-24.png" alt="User Icon"></a>
+                <a href="#"><img src="Imagens/icon/icons8-cart-64.png" alt="Cart Icon"></a>
+            </div>
+            <div id="search-menu" class="search-menu">
+                <input type="text" placeholder="Search articles...">
+                <button id="close-search">X</button>
+            </div>
+            
+        </div>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Tracksuit</h1>
+                <div class="buy">
+                    <a href="" class="btn">Buy Now</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="articles">
+            <h2>Our First Edition</h2>
+            <div class="article-list">
+                <div class="article-item">
+                    <a class="item-article"href="hoodie-kussi.html">
+                        <div class="article-image">
+                            <img src="Imagens/Hoddie- Frente.jpeg" alt="Frente do Hoddie Kussi" class="front-img">
+                            <img src="Imagens/Hoddie- Tras.jpeg" alt="Trás do Hoddie Kussi" class="back-img">
+                            <span class="buy-now-label">Buy Now</span>
+                        </div>
+                        <h3>Kuzzi Hoodie</h3>
+                        <p>€24,99</p>
+                    </a>
+                </div>
+                <div class="article-item">
+                    <a class="item-article" href="pants-kussi.html">
+                        <div class="article-image">
+                            <img src="Imagens/Pants-Front.jpeg" alt="Frente do Artigo 2" class="front-img">
+                            <img src="Imagens/Pants- Back.jpeg" alt="Trás do Artigo 2" class="back-img">
+                            <span class="buy-now-label">Buy Now</span>
+                        </div>
+                        <h3>Kuzzi Pants</h3>
+                        <p>€24,99</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        // Controle do menu de pesquisa
+        document.getElementById('search-icon').addEventListener('click', function(event) {
+            event.preventDefault();
+            var searchMenu = document.getElementById('search-menu');
+            if (searchMenu.style.display === 'none' || !searchMenu.style.display) {
+                searchMenu.style.display = 'block';
+                setTimeout(function() {
+                    searchMenu.classList.add('active');
+                }, 10);
+            }
+        });
+    
+        document.getElementById('close-search').addEventListener('click', function() {
+            var searchMenu = document.getElementById('search-menu');
+            searchMenu.classList.remove('active');
+            setTimeout(function() {
+                searchMenu.style.display = 'none';
+            }, 200);
+        });
+    
+        window.addEventListener('click', function(event) {
+            var searchMenu = document.getElementById('search-menu');
+            if (event.target !== searchMenu && 
+                !searchMenu.contains(event.target) && 
+                event.target !== document.getElementById('search-icon') &&
+                !document.getElementById('search-icon').contains(event.target)) {
+                searchMenu.classList.remove('active');
+                setTimeout(function() {
+                    searchMenu.style.display = 'none';
+                }, 200);
+            }
+        });
+    
+        // Controle do menu hamburguer
+        document.getElementById('hamburger').addEventListener('click', function() {
+            var navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+        });
+
+        // Troca automática de imagem na seção Hero
+        const heroImages = [
+            'Imagens/Intro img.jpeg',
+            'Imagens/Intro img2.jpeg',
+            'Imagens/Intro img3.jpeg'
+        ];
+
+        let currentImageIndex = 0;
+
+        function changeHeroImage() {
+            const heroSection = document.querySelector('.hero');
+            heroSection.style.backgroundImage = `url('${heroImages[currentImageIndex]}')`;
+            currentImageIndex = (currentImageIndex + 1) % heroImages.length;
+        }
+
+        changeHeroImage();
+        setInterval(changeHeroImage, 5000);
+        //------------------------------------------------------------
+         // Inicializa o carrinho a partir do localStorage ou cria um novo
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Atualiza a contagem de itens no ícone do carrinho
+        function updateCartCount() {
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = cartCount;
+        }
+
+        // Renderiza o número de itens no ícone do carrinho ao carregar a página
+        updateCartCount();
+
+        // Função para adicionar ao carrinho
+        document.getElementById('add-to-cart').addEventListener('click', function() {
+            const selectedSize = document.querySelector('.size-btn.active')?.textContent || 'M';
+            const quantity = parseInt(document.getElementById('quantity-input').value);
+
+            const item = {
+                id: '1', // Um ID único para o item
+                name: 'Kuzzi Pants',
+                size: selectedSize,
+                price: 100,
+                quantity: quantity,
+                image: 'Imagens/Hoddie- Frente.jpeg'
+            };
+
+            const existingItem = cart.find(cartItem => cartItem.id === item.id && cartItem.size === selectedSize);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push(item);
+            }
+
+            // Atualiza o localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Atualiza a contagem no ícone do carrinho
+            updateCartCount();
+        });
+
+
+        //--------------------------
+    </script>
+     <footer>
+        <div class="footer-container">
+            <div class="footer-section contacts">
+                <ul>
+                    <li><a href="#">Contacts</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+    
+            <div class="footer-section upgrade">
+                <p>Upgrade Your Lifestyle with Quality Goods from Our Store.</p>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/yourprofile" target="_blank">
+                        <img src="Imagens/instagram.png" alt="Instagram">
+                    </a>
+                    <a href="https://www.facebook.com/yourprofile" target="_blank">
+                        <img src="Imagens/facebook.png" alt="Facebook">
+                    </a>
+                    <a href="https://www.twitter.com/yourprofile" target="_blank">
+                        <img src="Imagens/twitter (1).png" alt="Twitter">
+                    </a>
+                    
+                    <!-- Adicione mais ícones conforme necessário -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="currency-selector">
+                <select>
+                    <option value="EUR">EUR €</option>
+                    <!-- Add more currency options as needed -->
+                </select>
+            </div>
+            <div class="footer-copy">
+                <p>© 2024 Kuzzi</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

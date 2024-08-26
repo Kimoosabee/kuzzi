@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1><a href="Index.html"><img class="logotipo" src="Imagens/Logo-removebg-preview.png" alt="Logo Kussi"></a></h1>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="menu-icons">
+                <a href="#" id="search-icon"><img src="Imagens/icon/icons8-search-30.png" alt="Search Icon"></a>
+                <a href="#"><img src="Imagens/icon/icons8-user-24.png" alt="User Icon"></a>
+                <a href="cart.html"><img src="Imagens/icon/icons8-cart-64.png" alt="Cart Icon"></a>
+            </div>
+            <div id="search-menu" class="search-menu">
+                <input type="text" placeholder="Search articles...">
+                <button id="close-search">X</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="checkout-container">
+        <form class="checkout-form">
+            <h2>Checkout</h2>
+            <div class="section contact-section">
+                <h3>Contact</h3>
+                <input type="email" placeholder="Email or mobile phone number" required>
+                <label>
+                    <input type="checkbox">
+                    Email me with news and offers
+                </label>
+                <a class="login" href="#">Log in</a>
+            </div>
+
+            <div class="section delivery-section">
+                <h3>Delivery</h3>
+                <label for="country">Country/Region</label>
+                <select id="country" name="country">
+                    <option value="Portugal">Portugal</option>
+                </select>
+                <div class="name-fields">
+                    <input type="text" placeholder="First name" required>
+                    <input type="text" placeholder="Last name" required>
+                </div>
+                <input type="text" placeholder="Address" required>
+                <input type="text" placeholder="Apartment, suite, etc. (optional)">
+                <div class="location-fields">
+                    <input type="text" placeholder="Postal code" required>
+                    <input type="text" placeholder="City" required>
+                    <input type="text" placeholder="Region" required>
+                </div>
+                <input type="tel" placeholder="Phone" required>
+            </div>
+
+            <div class="section shipping-method">
+                <h3>Shipping method</h3>
+                <p>Enter your shipping address to view available shipping methods.</p>
+            </div>
+
+            <div class="section payment-section">
+                <h3>Payment</h3>
+                <p>All transactions are secure and encrypted.</p>
+                <div class="credit-card-section">
+                    <div class="card-header">
+                        <span>Credit card</span>
+                        <div class="card-icons">
+                            <img src="Imagens/icon/icons8-visa-50.png" alt="Visa">
+                            <img src="Imagens/icon/icons8-mastercard-48.png" alt="Mastercard">
+                        </div>
+                    </div>
+                    <div class="card-inputs">
+                        <input type="text" placeholder="Card number" required>
+                        <div class="expiration-security">
+                            <input type="text" placeholder="Expiration date (MM / YY)" required>
+                            <input type="text" placeholder="Security code" required>
+                        </div>
+                        <input type="text" placeholder="Name on card" required>
+                        <label>
+                            <input type="checkbox" checked>
+                            Use shipping address as billing address
+                        </label>
+                    </div>
+                </div>
+
+                <div class="remember-me">
+                    <label>
+                        <input type="checkbox">
+                        Save my information for a faster checkout
+                    </label>
+                </div>
+
+                <div class="payment-footer">
+                    <p><img src="lock.png" alt="Secure"> Secure and encrypted</p>
+                    <button type="submit">Pay now</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="summary">
+            <h2>Summary</h2>
+            <div id="item-list">
+                <!-- Os itens do carrinho serão inseridos aqui dinamicamente -->
+            </div>
+
+            <hr>
+
+            <div class="product-item">
+                <div>Subtotal</div>
+                <div id="subtotal-amount">€0.00</div>
+            </div>
+            <div class="product-item">
+                <div>Shipping</div>
+                <div>Enter shipping address</div>
+            </div>
+            <div class="product-item total">
+                <div>Total</div>
+                <div id="total-amount">€0.00</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+    (function(){
+        emailjs.init("SEU_USER_ID"); // Substitua pelo seu User ID do EmailJS
+    })();
+        </script>
+    <script>
+        
+        // Recupera os itens do carrinho e o subtotal do localStorage
+        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        const subtotal = localStorage.getItem('cartSubtotal');
+
+        // Função para renderizar os itens do carrinho na página de checkout
+        function renderCheckoutCart() {
+            const summaryContainer = document.querySelector('.summary');
+            summaryContainer.innerHTML = '<h2>Summary</h2>';
+            let total = 0;
+
+            cartItems.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('product-item');
+                itemDiv.innerHTML = `
+                    <div style="display: flex; align-items: center;">
+                        <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; margin-right: 10px;">
+                        ${item.name} (${item.size})
+                    </div>
+                    <div>€${(item.price * item.quantity).toFixed(2)}</div>
+                `;
+                summaryContainer.appendChild(itemDiv);
+                total += item.price * item.quantity;
+            });
+
+            const subtotalDiv = document.createElement('div');
+            subtotalDiv.classList.add('product-item');
+            subtotalDiv.innerHTML = `
+                <div>Subtotal</div>
+                <div>€${total.toFixed(2)}</div>
+            `;
+            summaryContainer.appendChild(subtotalDiv);
+
+            const totalDiv = document.createElement('div');
+            totalDiv.classList.add('product-item', 'total');
+            totalDiv.innerHTML = `
+                <div>Total</div>
+                <div>€${total.toFixed(2)}</div>
+            `;
+            summaryContainer.appendChild(totalDiv);
+        }
+
+        // Chama a função para renderizar os itens do carrinho na página de checkout
+        renderCheckoutCart();
+        document.querySelector('.checkout-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Impede o comportamento padrão do formulário
+
+    // Captura os dados do cliente do formulário
+    const customerDetails = {
+        email: document.querySelector('input[type="email"]').value,
+        firstName: document.querySelector('input[placeholder="First name"]').value,
+        lastName: document.querySelector('input[placeholder="Last name"]').value,
+        address: document.querySelector('input[placeholder="Address"]').value,
+        city: document.querySelector('input[placeholder="City"]').value,
+        postalCode: document.querySelector('input[placeholder="Postal code"]').value,
+        region: document.querySelector('input[placeholder="Region"]').value,
+        phone: document.querySelector('input[placeholder="Phone"]').value
+    };
+
+    // Captura os itens do carrinho
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const orderTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+    // Cria o conteúdo do email
+    const orderData = {
+        customer: customerDetails,
+        items: cartItems.map(item => `${item.name} (${item.size}) - €${item.price} x${item.quantity}`).join(', '),
+        total: `€${orderTotal.toFixed(2)}`
+    };
+
+    const templateParams = {
+        customer_email: orderData.customer.email,
+        customer_name: `${orderData.customer.firstName} ${orderData.customer.lastName}`,
+        customer_address: `${orderData.customer.address}, ${orderData.customer.city}, ${orderData.customer.postalCode}, ${orderData.customer.region}`,
+        customer_phone: orderData.customer.phone,
+        items: orderData.items,
+        total: orderData.total
+    };
+
+    // Envia o email usando EmailJS
+    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            alert('Pedido enviado com sucesso!');
+
+            // Limpa o localStorage e redireciona para uma página de confirmação
+            localStorage.removeItem('cart');
+            localStorage.removeItem('cartSubtotal');
+            window.location.href = 'confirmation.html';
+        }, function(error) {
+            console.log('FAILED...', error);
+            alert('Erro ao enviar o pedido, tente novamente.');
+        });
+});
+
+    </script>
+</body>
+</html>
