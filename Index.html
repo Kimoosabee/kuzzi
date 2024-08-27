@@ -15,22 +15,22 @@
             <div class="logo">
                 <h1><img src="Imagens/Logo-removebg-preview.png" alt=""></h1>
             </div>
-            <div class="hamburger" id="hamburger">
+        <!---->    <div class="hamburger" id="hamburger">
                 <span></span>
                 <span></span>
                 <span></span>
+                
             </div>
             <nav class="nav-links" id="nav-links">
                 <ul>
-                    <li><a href="estruturabase.html">Home</a></li>
                     <li><a href="product.html">All Products</a></li>
+          <!--          <li><a href="estruturabase.html">Next Drop</a></li>-->
                     <li><a href="#">About us</a></li>
                     
                     <li><a href="#">Contact</a></li>
                 </ul>
             </nav>
             <div class="menu-icons">
-                <a href="#" id="search-icon"><img src="Imagens/icon/icons8-search-30.png" alt="Search Icon"></a>
                 <a href="#"><img src="Imagens/icon/icons8-user-24.png" alt="User Icon"></a>
                 <a href="#"><img src="Imagens/icon/icons8-cart-64.png" alt="Cart Icon"></a>
             </div>
@@ -47,7 +47,7 @@
             <div class="hero-content">
                 <h1>Tracksuit</h1>
                 <div class="buy">
-                    <a href="" class="btn">Buy Now</a>
+                    <a href="product.html" class="btn">Buy Now</a>
                 </div>
             </div>
         </section>
@@ -82,17 +82,7 @@
     </main>
     
     <script>
-        // Controle do menu de pesquisa
-        document.getElementById('search-icon').addEventListener('click', function(event) {
-            event.preventDefault();
-            var searchMenu = document.getElementById('search-menu');
-            if (searchMenu.style.display === 'none' || !searchMenu.style.display) {
-                searchMenu.style.display = 'block';
-                setTimeout(function() {
-                    searchMenu.classList.add('active');
-                }, 10);
-            }
-        });
+       
     
         document.getElementById('close-search').addEventListener('click', function() {
             var searchMenu = document.getElementById('search-menu');

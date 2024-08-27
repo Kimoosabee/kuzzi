@@ -1,12 +1,77 @@
+/* Reset Básico */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Estilo para a Navbar e Menu */
+.navbar {
+    height: 65px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hamburger {
+    cursor: pointer;
+    font-size: 24px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 24px;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #000;
+}
+
+.menu-icons {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.menu-icons a {
+    margin: 0 10px;
+    font-size: 18px;
+    color: #000;
+}
+
+@media (max-width: 600px) {
+    .menu-icons {
+        display: none;
+    }
+
+    .hamburger.active + .menu-icons {
+        display: flex;
+    }
+}
+
+/* Container Principal do Checkout */
 .checkout-container {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     width: 80%;
     margin: 20px auto;
     padding: 20px;
@@ -15,12 +80,14 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Formulário de Checkout */
 .checkout-form {
-    width: 50%;
+    width: 48%;
 }
 
+/* Resumo do Pedido */
 .summary {
-    width: 45%;
+    width: 48%;
     background-color: #f4f4f4;
     padding: 20px;
     border-radius: 8px;
@@ -149,102 +216,52 @@ a:hover {
     text-decoration: none;
 }
 
-.logo{
-    margin-left: 50%;
-}
-
-/* Responsividade Melhorada */
-
-/* Tablets */
-@media (max-width: 768px) {
-    .checkout-container {
-        width: 90%;
-    }
-    .checkout-form,
-    .summary {
-        width: 48%;
-    }
-}
-
-/* Mobile Devices */
-@media (max-width: 600px) {
+/* Responsividade */
+@media (max-width: 992px) {
     .checkout-container {
         flex-direction: column;
-        width: 95%;
-        padding: 10px;
+        align-items: center;
+        width: 90%;
+        padding: 15px;
     }
-    .checkout-form,
-    .summary {
+
+    .checkout-form, .summary {
         width: 100%;
+        margin-bottom: 20px;
     }
-    .summary {
-        margin-top: 20px;
-    }
-    .payment-method img {
-        width: 40px;
-    }
-    .logo {
-        margin-left: 0;
-        text-align: center;
-    }
-    
-    /* Ajustes adicionais para dispositivos móveis */
-    .checkout-container h2 {
-        font-size: 24px;
-    }
-    .section h3 {
-        font-size: 16px;
-    }
-    input[type="email"],
-    input[type="text"],
-    input[type="tel"],
-    select,
-    textarea {
-        font-size: 14px;
-    }
-    .summary .total {
-        font-size: 16px;
-    }
-    label {
-        font-size: 12px;
-    }
-    .login {
-        font-size: 12px;
+
+    .summary button {
+        width: 100%;
+        padding: 12px;
     }
 }
 
-/* Mobile Phones */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     .checkout-container {
+        width: 100%;
         padding: 10px;
     }
-    .summary button {
-        width: 100%;
+
+    .name-fields,
+    .location-fields {
+        flex-direction: column;
+        gap: 0;
     }
-    .payment-method img {
-        width: 35px;
-        margin-right: 5px;
-    }
-    .checkout-container h2 {
+
+    .summary h2 {
         font-size: 22px;
     }
-    .section h3 {
-        font-size: 14px;
-    }
-    input[type="email"],
-    input[type="text"],
-    input[type="tel"],
-    select,
-    textarea {
-        font-size: 12px;
-    }
+
     .summary .total {
-        font-size: 14px;
+        font-size: 18px;
     }
-    label {
-        font-size: 11px;
+
+    .summary button {
+        font-size: 16px;
+        padding: 10px;
     }
-    .login {
-        font-size: 11px;
+
+    .payment-method img {
+        width: 40px;
     }
 }

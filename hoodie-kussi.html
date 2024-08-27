@@ -23,13 +23,13 @@
             <nav class="nav-links" id="nav-links">
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="all-products.html">All Products</a></li>
-                    <li><a href="about-us.html">About us</a></li>
+                   <li><a href="all-products.html">All Products</a></li>
+                <!--    <li><a href="about-us.html">About us</a></li>--> 
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </nav>
             <div class="menu-icons">
-                <a href="#" id="search-icon"><img src="Imagens/icon/icons8-search-30.png" alt="Search Icon"></a>
+                 <!--<a href="#" id="search-icon"><img src="Imagens/icon/icons8-search-30.png" alt="Search Icon"></a>-->
                 <a href="#"><img src="Imagens/icon/icons8-user-24.png" alt="User Icon"></a>
                 <a href="cart.html"><img src="Imagens/icon/icons8-cart-64.png" alt="Cart Icon"><span id="cart-count">0</span></a>
             </div>
@@ -42,15 +42,20 @@
     <main>
         <section class="product-details">
             <div class="product-image">
-                <img src="Imagens/Hoddie- Frente.jpeg" alt="Hoodie Kussi - Front View">
+                <img id="main-image" src="Imagens/Hoddie- Frente.jpeg" alt="Product Image">
+                <div class="image-thumbnails">
+                    <img src="Imagens/Hoddie- Frente.jpeg" alt="Thumbnail 1" onclick="changeImage('Imagens/Hoddie- Frente.jpeg')">
+                    <img src="Imagens/Hoddie- Tras.jpeg" alt="Thumbnail 2" onclick="changeImage('Imagens/Hoddie- Tras.jpeg')">
+                    
+                </div>
             </div>
             <div class="product-info">
                 <h1>Kuzzi Hoodie</h1>
-                <p class="price">100€</p>
-                <p class="tax-info">Tax included. Shipping calculated at checkout.</p>
+                <p class="price">80€</p>
+                <p class="tax-info">Imposto incluído. Frete calculado no checkout.</p>
                 
                 <div class="size-options">
-                    <h3>SIZE</h3>
+                    <h3>TAMANHO</h3>
                     <div class="sizes">
                         <button class="size-btn">S</button>
                         <button class="size-btn">M</button>
@@ -60,7 +65,7 @@
                 </div>
                 
                 <div class="quantity">
-                    <h3>QUANTITY</h3>
+                    <h3>QUANTIDADE</h3>
                     <div class="quantity-controls">
                         <button class="quantity-btn" id="decrease-quantity">-</button>
                         <input type="text" value="1" id="quantity-input">
@@ -68,17 +73,19 @@
                     </div>
                 </div>
                 
-                <button class="add-to-cart" id="add-to-cart">Add to cart</button>
+                <button class="add-to-cart" id="add-to-cart">Adicionar ao carrinho</button>
                 
                 <div class="product-description">
-                    <p>Wear it. You’ll look amazing.</p>
-                    <p>100% Cotton</p>
+                    <p>Conforto e estilo em cada passo.</p>
+                    <p>100% Algodão</p>
                 </div>
             </div>
         </section>
     </main>
-
     <script>
+         function changeImage(imageUrl) {
+            document.getElementById('main-image').src = imageUrl;
+        }
         // Inicializa o carrinho a partir do localStorage ou cria um novo
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -124,7 +131,11 @@
             let quantity = parseInt(document.getElementById('quantity-input').value);
             document.getElementById('quantity-input').value = quantity + 1;
         });
-
+         // Controle do menu hamburguer
+         document.getElementById('hamburger').addEventListener('click', function() {
+            var navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+        });
         document.getElementById('decrease-quantity').addEventListener('click', function() {
             let quantity = parseInt(document.getElementById('quantity-input').value);
             if (quantity > 1) {

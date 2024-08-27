@@ -1,0 +1,43 @@
+ <main>
+        <section class="product-details">
+            <div class="product-image">
+                <img id="main-image" src="Imagens/Hoddie- Frente.jpeg" alt="Product Image">
+                <div class="image-thumbnails">
+                    <img src="Imagens/Hoddie- Frente.jpeg" alt="Thumbnail 1" onclick="changeImage('Imagens/Hoddie- Frente.jpeg')">
+                    <img src="Imagens/Hoddie- Tras.jpeg" alt="Thumbnail 2" onclick="changeImage('Imagens/Hoddie- Tras.jpeg')">
+                    
+                </div>
+            </div>
+            <div class="product-info">
+                <h1>Produto Exemplo</h1>
+                <p class="price">80€</p>
+                <p class="tax-info">Imposto incluído. Frete calculado no checkout.</p>
+                
+                <div class="size-options">
+                    <h3>TAMANHO</h3>
+                    <div class="sizes">
+                        <button class="size-btn">S</button>
+                        <button class="size-btn">M</button>
+                        <button class="size-btn">L</button>
+                        <button class="size-btn">XL</button>
+                    </div>
+                </div>
+                
+                <div class="quantity">
+                    <h3>QUANTIDADE</h3>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" id="decrease-quantity">-</button>
+                        <input type="text" value="1" id="quantity-input">
+                        <button class="quantity-btn" id="increase-quantity">+</button>
+                    </div>
+                </div>
+                
+                <button class="add-to-cart" id="add-to-cart">Adicionar ao carrinho</button>
+                
+                <div class="product-description">
+                    <p>Conforto e estilo em cada passo.</p>
+                    <p>100% Algodão</p>
+                </div>
+            </div>
+        </section>
+    </main>

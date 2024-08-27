@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="checkout.css">
 </head>
+
 <body>
     <header>
         <div class="navbar">
@@ -21,7 +23,7 @@
                 <span></span>
                 <span></span>
             </div>
-            <div class="menu-icons">
+            <div class="menu-icons" id="menu-icons">
                 <a href="#" id="search-icon"><img src="Imagens/icon/icons8-search-30.png" alt="Search Icon"></a>
                 <a href="#"><img src="Imagens/icon/icons8-user-24.png" alt="User Icon"></a>
                 <a href="cart.html"><img src="Imagens/icon/icons8-cart-64.png" alt="Cart Icon"></a>
@@ -104,7 +106,7 @@
                 </div>
 
                 <div class="payment-footer">
-                    <p><img src="lock.png" alt="Secure"> Secure and encrypted</p>
+                <!--<p><img src="lock.png" alt="Secure"> Secure and encrypted</p>-->
                     <button type="submit">Pay now</button>
                 </div>
             </div>
@@ -136,106 +138,129 @@
     <script src="script.js"></script>
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script type="text/javascript">
-    (function(){
-        emailjs.init("SEU_USER_ID"); // Substitua pelo seu User ID do EmailJS
-    })();
-        </script>
+        (function () {
+            emailjs.init("SEU_USER_ID"); // Substitua pelo seu User ID do EmailJS
+        })();
+    </script>
     <script>
-        
-        // Recupera os itens do carrinho e o subtotal do localStorage
-        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-        const subtotal = localStorage.getItem('cartSubtotal');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Menu Hamburger Toggle
+            const hamburger = document.getElementById('hamburger');
+            const menuIcons = document.getElementById('menu-icons');
+            const searchMenu = document.getElementById('search-menu');
+            const closeSearch = document.getElementById('close-search');
+            const searchIcon = document.getElementById('search-icon');
 
-        // Função para renderizar os itens do carrinho na página de checkout
-        function renderCheckoutCart() {
-            const summaryContainer = document.querySelector('.summary');
-            summaryContainer.innerHTML = '<h2>Summary</h2>';
-            let total = 0;
-
-            cartItems.forEach(item => {
-                const itemDiv = document.createElement('div');
-                itemDiv.classList.add('product-item');
-                itemDiv.innerHTML = `
-                    <div style="display: flex; align-items: center;">
-                        <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; margin-right: 10px;">
-                        ${item.name} (${item.size})
-                    </div>
-                    <div>€${(item.price * item.quantity).toFixed(2)}</div>
-                `;
-                summaryContainer.appendChild(itemDiv);
-                total += item.price * item.quantity;
+            hamburger.addEventListener('click', function () {
+                menuIcons.classList.toggle('active');
+                hamburger.classList.toggle('active');
             });
 
-            const subtotalDiv = document.createElement('div');
-            subtotalDiv.classList.add('product-item');
-            subtotalDiv.innerHTML = `
-                <div>Subtotal</div>
-                <div>€${total.toFixed(2)}</div>
-            `;
-            summaryContainer.appendChild(subtotalDiv);
+            searchIcon.addEventListener('click', function (e) {
+                e.preventDefault();
+                searchMenu.classList.toggle('active');
+            });
 
-            const totalDiv = document.createElement('div');
-            totalDiv.classList.add('product-item', 'total');
-            totalDiv.innerHTML = `
-                <div>Total</div>
-                <div>€${total.toFixed(2)}</div>
-            `;
-            summaryContainer.appendChild(totalDiv);
-        }
+            closeSearch.addEventListener('click', function () {
+                searchMenu.classList.remove('active');
+            });
 
-        // Chama a função para renderizar os itens do carrinho na página de checkout
-        renderCheckoutCart();
-        document.querySelector('.checkout-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Impede o comportamento padrão do formulário
+            // Recupera os itens do carrinho e o subtotal do localStorage
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            const subtotal = localStorage.getItem('cartSubtotal');
 
-    // Captura os dados do cliente do formulário
-    const customerDetails = {
-        email: document.querySelector('input[type="email"]').value,
-        firstName: document.querySelector('input[placeholder="First name"]').value,
-        lastName: document.querySelector('input[placeholder="Last name"]').value,
-        address: document.querySelector('input[placeholder="Address"]').value,
-        city: document.querySelector('input[placeholder="City"]').value,
-        postalCode: document.querySelector('input[placeholder="Postal code"]').value,
-        region: document.querySelector('input[placeholder="Region"]').value,
-        phone: document.querySelector('input[placeholder="Phone"]').value
-    };
+            // Função para renderizar os itens do carrinho na página de checkout
+            function renderCheckoutCart() {
+                const summaryContainer = document.querySelector('.summary');
+                summaryContainer.innerHTML = '<h2>Summary</h2>';
+                let total = 0;
 
-    // Captura os itens do carrinho
-    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-    const orderTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+                cartItems.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add('product-item');
+                    itemDiv.innerHTML = `
+                        <div style="display: flex; align-items: center;">
+                            <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; margin-right: 10px;">
+                            ${item.name} (${item.size})
+                        </div>
+                        <div>€${(item.price * item.quantity).toFixed(2)}</div>
+                    `;
+                    summaryContainer.appendChild(itemDiv);
+                    total += item.price * item.quantity;
+                });
 
-    // Cria o conteúdo do email
-    const orderData = {
-        customer: customerDetails,
-        items: cartItems.map(item => `${item.name} (${item.size}) - €${item.price} x${item.quantity}`).join(', '),
-        total: `€${orderTotal.toFixed(2)}`
-    };
+                const subtotalDiv = document.createElement('div');
+                subtotalDiv.classList.add('product-item');
+                subtotalDiv.innerHTML = `
+                    <div>Subtotal</div>
+                    <div>€${total.toFixed(2)}</div>
+                `;
+                summaryContainer.appendChild(subtotalDiv);
 
-    const templateParams = {
-        customer_email: orderData.customer.email,
-        customer_name: `${orderData.customer.firstName} ${orderData.customer.lastName}`,
-        customer_address: `${orderData.customer.address}, ${orderData.customer.city}, ${orderData.customer.postalCode}, ${orderData.customer.region}`,
-        customer_phone: orderData.customer.phone,
-        items: orderData.items,
-        total: orderData.total
-    };
+                const totalDiv = document.createElement('div');
+                totalDiv.classList.add('product-item', 'total');
+                totalDiv.innerHTML = `
+                    <div>Total</div>
+                    <div>€${total.toFixed(2)}</div>
+                `;
+                summaryContainer.appendChild(totalDiv);
+            }
 
-    // Envia o email usando EmailJS
-    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
-        .then(function(response) {
-            console.log('SUCCESS!', response.status, response.text);
-            alert('Pedido enviado com sucesso!');
+            // Chama a função para renderizar os itens do carrinho na página de checkout
+            renderCheckoutCart();
 
-            // Limpa o localStorage e redireciona para uma página de confirmação
-            localStorage.removeItem('cart');
-            localStorage.removeItem('cartSubtotal');
-            window.location.href = 'confirmation.html';
-        }, function(error) {
-            console.log('FAILED...', error);
-            alert('Erro ao enviar o pedido, tente novamente.');
+            document.querySelector('.checkout-form').addEventListener('submit', function (event) {
+                event.preventDefault(); // Impede o comportamento padrão do formulário
+
+                // Captura os dados do cliente do formulário
+                const customerDetails = {
+                    email: document.querySelector('input[type="email"]').value,
+                    firstName: document.querySelector('input[placeholder="First name"]').value,
+                    lastName: document.querySelector('input[placeholder="Last name"]').value,
+                    address: document.querySelector('input[placeholder="Address"]').value,
+                    city: document.querySelector('input[placeholder="City"]').value,
+                    postalCode: document.querySelector('input[placeholder="Postal code"]').value,
+                    region: document.querySelector('input[placeholder="Region"]').value,
+                    phone: document.querySelector('input[placeholder="Phone"]').value
+                };
+
+                // Captura os itens do carrinho
+                const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+                const orderTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+                
+                // Cria o conteúdo do email
+                const orderData = {
+                    customer: customerDetails,
+                    items: cartItems.map(item => `${item.name} (${item.size}) - €${item.price} x${item.quantity}`).join(', '),
+                    total: `€${orderTotal.toFixed(2)}`
+                };
+
+                const templateParams = {
+                    customer_email: orderData.customer.email,
+                    customer_name: `${orderData.customer.firstName} ${orderData.customer.lastName}`,
+                    customer_address: `${orderData.customer.address}, ${orderData.customer.city}, ${orderData.customer.postalCode}, ${orderData.customer.region}`,
+                    customer_phone: orderData.customer.phone,
+                    items: orderData.items,
+                    total: orderData.total
+                };
+
+                // Envia o email usando EmailJS
+                emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                    .then(function (response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                        alert('Pedido enviado com sucesso!');
+
+                        // Limpa o localStorage e redireciona para uma página de confirmação
+                        localStorage.removeItem('cart');
+                        localStorage.removeItem('cartSubtotal');
+                        window.location.href = 'confirmation.html';
+                    }, function (error) {
+                        console.log('FAILED...', error);
+                        alert('Erro ao enviar o pedido, tente novamente.');
+                    });
+            });
         });
-});
-
     </script>
 </body>
+
 </html>
